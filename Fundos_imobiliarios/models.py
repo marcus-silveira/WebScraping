@@ -17,9 +17,9 @@ class FundoImobiliario:
 
 
 class Estrategia:
-    def __int__(self, segmento="", cotacao_atual_minima=0, ffo_yield_minimo=0, dividend_yield_minimo=0, p_vp_minimo=0,
-                valor_mercado_minimo=0, liquidez_minima=0, qt_minima_imoveis=0, valor_minimo_preco_m2=0,
-                valor_minimo_aluguel_m2=0, valor_minimo_cap_rate=0, maxima_vacancia_media=0):
+    def __init__(self, segmento="", cotacao_atual_minima=0, ffo_yield_minimo=0, dividend_yield_minimo=0, p_vp_minimo=0,
+                 valor_mercado_minimo=0, liquidez_minima=0, qt_minima_imoveis=0, valor_minimo_preco_m2=0,
+                 valor_minimo_aluguel_m2=0, valor_minimo_cap_rate=0, maxima_vacancia_media=0):
         self.segmento = segmento
         self.cotacao_atual_minima = cotacao_atual_minima
         self.ffo_yield_minimo = ffo_yield_minimo
@@ -34,6 +34,9 @@ class Estrategia:
         self.maxima_vacancia_media = maxima_vacancia_media
 
     def aplicar_estrategia(self, fundo: FundoImobiliario):
+        if self.segmento != "":
+            if fundo.segmento != self.segmento:
+                return False
         if fundo.cotacao_atual < self.cotacao_atual_minima \
                 or fundo.ffo_yield < self.ffo_yield_minimo \
                 or fundo.dividend_yield < self.dividend_yield_minimo \
@@ -46,3 +49,5 @@ class Estrategia:
                 or fundo.cap_rate < self.valor_minimo_cap_rate \
                 or fundo.vacancia_media < self.maxima_vacancia_media:
             return False
+        else:
+            return True
